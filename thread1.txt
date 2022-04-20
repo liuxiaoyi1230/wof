@@ -1,0 +1,21 @@
+static void thread1_entry(void *parameter)
+{
+rt_uint32_t count = 0;
+while (1)
+{
+/* 线 程 1 采 用 低 优 先 级 运 行， 一 直 打 印 计 数 值 */
+rt_kprintf("thread1 count: %d\n", count ++);
+rt_thread_mdelay(500);
+}
+}
+
+int thread_sample1(void)
+{
+/* 创 建 线 程 1， 名 称 是 thread1， 入 口 是 thread1_entry*/
+tid1 = rt_thread_create("thread1",
+thread1_entry, RT_NULL,
+THREAD_STACK_SIZE,
+THREAD_PRIORITY, THREAD_TIMESLICE);
+/* 如 果 获 得 线 程 控 制 块， 启 动 这 个 线 程 */
+if (tid1 != RT_NULL)
+rt_thread_startup(tid1);
